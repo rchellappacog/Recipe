@@ -15,6 +15,7 @@ public class RecipeController {
 
       List<RecipeDto> recipe1;
 
+
       RecipeController() {
             recipe1 = new ArrayList<>();
       }
@@ -22,7 +23,12 @@ public class RecipeController {
     @GetMapping
      public List<RecipeDto> getAllRecipeWhenEmpty() { return recipe1; }
 
-
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public RecipeDto addRaceCars(@RequestBody RecipeDto recipeDto) {
+        recipe1.add(recipeDto);
+        return recipeDto;
+    }
 
 
 

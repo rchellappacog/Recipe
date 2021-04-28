@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import recipe.model.RecipeDto;
 
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,6 +41,23 @@ public class RecipeIT {
 
     }
 
+    @Test
+    public void postRecipe() throws Exception {
+        RecipeDto recipeDto = new RecipeDto(
+                "Orange juice",
+                "Orange"
+                );
+        mockMvc.perform(post("/recipe")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(recipeDto)))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(get("/recipe"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()").value(1))
+                .andExpect(jsonPath("[0].recipeName").value("Orange juice"))
+                .andExpect(jsonPath("[0].ingredients").value("Orange"));
+    }
 
 
 
