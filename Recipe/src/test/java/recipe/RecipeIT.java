@@ -32,8 +32,14 @@ public class RecipeIT {
 
     @Test
     public void getAllRecipeWhenEmpty() throws Exception {
-        mockMvc.perform(get("/speedway/racecars"))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/recipe"))
+                .andExpect(status().isOk())
+               .andExpect(jsonPath("length()").value(0));
 
     }
+
+
+
+
+
 }
