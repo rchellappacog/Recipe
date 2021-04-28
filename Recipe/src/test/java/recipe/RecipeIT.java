@@ -42,7 +42,7 @@ public class RecipeIT {
     }
 
     @Test
-    public void postRecipe() throws Exception {
+    public void postandgetRecipe() throws Exception {
         RecipeDto recipeDto = new RecipeDto(
                 "Orange juice",
                 "Orange"
